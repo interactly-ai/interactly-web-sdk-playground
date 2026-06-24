@@ -1,0 +1,197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 99%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 220 100% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 94%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 71% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 35 92% 46%;
+    --warning-foreground: 38 92% 8%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 89%;
+    --ring: 220 100% 56%;
+
+    --log-info: 220 90% 56%;
+    --log-success: 142 71% 40%;
+    --log-warning: 35 92% 46%;
+    --log-error: 0 84% 60%;
+    --log-audio: 270 80% 58%;
+    --log-reconnect: 199 89% 46%;
+
+    --brand-from: 201 100% 55%;
+    --brand-to: 220 100% 56%;
+
+    --radius: 0.85rem;
+  }
+
+  .dark {
+    --background: 224 47% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 44% 9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 44% 9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 213 100% 62%;
+    --primary-foreground: 222 47% 8%;
+
+    --secondary: 217 33% 16%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 18%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 69% 48%;
+    --success-foreground: 144 80% 6%;
+
+    --warning: 38 95% 56%;
+    --warning-foreground: 28 90% 8%;
+
+    --border: 217 33% 18%;
+    --input: 217 33% 22%;
+    --ring: 213 100% 62%;
+
+    --log-info: 213 100% 66%;
+    --log-success: 142 69% 52%;
+    --log-warning: 38 95% 60%;
+    --log-error: 0 84% 66%;
+    --log-audio: 270 90% 72%;
+    --log-reconnect: 199 95% 60%;
+
+    --brand-from: 201 100% 60%;
+    --brand-to: 217 100% 64%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1,
+      "ss01" 1;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.25);
+  }
+
+  /* Custom, theme-aware scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground) / 0.28);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground) / 0.5);
+  }
+}
+
+@layer components {
+  /* Frosted panel surface used across the app. */
+  .glass {
+    @apply border border-border/80 bg-card/70 backdrop-blur-xl;
+  }
+
+  /* The signature brand gradient text. */
+  .text-brand-gradient {
+    @apply bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent;
+  }
+
+  .bg-brand-gradient {
+    @apply bg-gradient-to-br from-brand-from to-brand-to;
+  }
+
+  /* App-wide ambient background: layered radial brand glows. */
+  .app-backdrop {
+    background-image:
+      radial-gradient(
+        60rem 60rem at 12% -10%,
+        hsl(var(--brand-from) / 0.12),
+        transparent 60%
+      ),
+      radial-gradient(
+        50rem 50rem at 100% 0%,
+        hsl(var(--brand-to) / 0.1),
+        transparent 55%
+      );
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbars where we want a clean edge but keep scrollability. */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
