@@ -51,6 +51,28 @@ declare module "@interactly-ai/web" {
   export type AssistantConfig = Record<string, unknown>;
   export type CallSummary = Record<string, unknown>;
 
+  /** v1.1.1+: call-start emits the full payload with call details. */
+  export interface CallStartPayload {
+    direction?: string;
+    assistantNumber?: string;
+    userNumber?: string;
+    callSid?: string;
+    status?: string;
+    reason?: string;
+    timestamp?: number;
+  }
+
+  /** v1.1.1+: call-end emits the full payload with final call state. */
+  export interface CallEndPayload {
+    direction?: string;
+    assistantNumber?: string;
+    userNumber?: string;
+    callSid?: string;
+    status?: string;
+    reason?: string;
+    timestamp?: number;
+  }
+
   export interface InteractlyEventMap {
     open: (event: Event) => void;
     close: (event: CloseEvent) => void;
@@ -66,8 +88,8 @@ declare module "@interactly-ai/web" {
     reconnected: (payload: ReconnectedPayload) => void;
     reconnectError: (payload: ReconnectErrorPayload) => void;
     reconnectFailed: (payload: ReconnectFailedPayload) => void;
-    "call-start": (userNumber: string) => void;
-    "call-end": () => void;
+    "call-start": (payload: CallStartPayload) => void;
+    "call-end": (payload: CallEndPayload) => void;
     "assistant-config": (config: AssistantConfig) => void;
     /** Emitted by the SDK but unregistered in the handler map (patch required). */
     recording: (s3Link: string) => void;

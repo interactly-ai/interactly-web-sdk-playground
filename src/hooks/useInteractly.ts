@@ -146,23 +146,24 @@ export function useInteractly(config: CallConfig): UseInteractly {
         pushLog("streamStart", "info", p, "Microphone streaming started");
       });
 
-      add("call-start", (num) => {
+      add("call-start", (payload) => {
         sawCallStartRef.current = true;
-        setUserNumber(num || "");
+        const num = payload?.userNumber || "";
+        setUserNumber(num);
         setCallStartedAt(Date.now());
         updateStatus("live");
         pushLog(
           "call-start",
           "success",
-          num,
+          payload,
           num ? `Call started · ${num}` : "Call started",
         );
       });
 
-      add("call-end", () => {
+      add("call-end", (payload) => {
         userStoppedRef.current = true; // remote completion — tear down cleanly
         setCallEndedAt((prev) => prev ?? Date.now());
-        pushLog("call-end", "info", undefined, "Call ended by assistant/server");
+        pushLog("call-end", "info", payload, "Call ended by assistant/server");
         if (statusRef.current === "live" || statusRef.current === "connecting") {
           updateStatus("ended");
         }
